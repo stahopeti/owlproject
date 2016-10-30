@@ -5,16 +5,22 @@
  */
 package com.mycompany.owl;
 
+import org.semanticweb.owlapi.model.OWLException;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+
 /**
  *
  * @author peterbencestahorszki
  */
 public class Main {
  
-    public static void main(String[] args){
+    public static void main(String[] args) throws OWLOntologyCreationException, OWLException{
     
-        System.out.println("Hello world!");
+        OWLGodclass owlgc = new OWLGodclass();
+
+        owlgc.printHierarchyWhole();
         
+        owlgc.searchForClass("string");
     }
     
 }
