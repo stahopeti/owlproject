@@ -18,9 +18,13 @@ public class Main {
     
         OWLGodclass owlgc = new OWLGodclass();
 
+        System.out.println("Ontology class hierarchy: \n\n");
         owlgc.printHierarchyWhole();
         
-        owlgc.searchForClass("string");
+        owlgc.showInstancesOfClass("NBN");
+        owlgc.showInstancesOfClass("Pharmacology");
+        owlgc.showInstancesOfClass("Drug");
+        
     }
     
 }
