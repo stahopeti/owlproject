@@ -121,7 +121,29 @@ public class OWLGodclass {
         
         if(!(instances.isEmpty())){
             for(OWLNamedIndividual individual : instances){
-                if(isPropertyInIndividual(individual, filterProperty)) filteredInstances.add(individual);
+                if(isDataPropertyInIndividual(individual, filterProperty)) filteredInstances.add(individual);
+            }
+        }
+        
+        if(filteredInstances!=null){
+            for(OWLNamedIndividual individual : filteredInstances){
+                System.out.println("Individual: " + individual.getIRI().getShortForm());
+                    System.out.println("Object property: ");showObjectPropertyOfIndividual(individual);
+                    System.out.println("Data property: ");showDataPropertyOfIndividual(individual);
+
+            }
+        }
+    }
+    
+    public void filterByObjectPropertyValue(String filterProperty){
+        System.out.println(filterProperty);
+        Set<OWLNamedIndividual> instances = ontology.getIndividualsInSignature();
+        Set<OWLNamedIndividual> filteredInstances = ontology.getIndividualsInSignature();
+        filteredInstances.clear();
+        
+        if(!(instances.isEmpty())){
+            for(OWLNamedIndividual individual : instances){
+                if(isObjectPropertyInIndividual(individual, filterProperty)) filteredInstances.add(individual);
             }
         }
         
@@ -148,7 +170,18 @@ public class OWLGodclass {
         }
     }
     
-    private boolean isPropertyInIndividual(OWLNamedIndividual individual, String property){
+    private boolean isObjectPropertyInIndividual(OWLNamedIndividual individual, String property){
+        for(OWLObjectProperty dp : ontology.getObjectPropertiesInSignature()){
+                NodeSet<OWLNamedIndividual> nodeset = reasoner.getObjectPropertyValues(individual, dp);
+                for(Node<OWLNamedIndividual> value : nodeset){
+//                   System.out.println("\t" + dp.getIRI().getShortForm() + ": " + value.getLiteral());
+                     if(value.getRepresentativeElement().getIRI().getShortForm().equalsIgnoreCase(property)) return true;
+            }
+        }
+        return false;
+    }
+    
+    private boolean isDataPropertyInIndividual(OWLNamedIndividual individual, String property){
         for(OWLDataProperty dp : ontology.getDataPropertiesInSignature()){
                 Set<OWLLiteral> nodeset = reasoner.getDataPropertyValues(individual, dp);
                 for(OWLLiteral value : nodeset){

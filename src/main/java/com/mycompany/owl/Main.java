@@ -36,6 +36,8 @@ public class Main extends Application{
         owlgc.showInstancesOfClass("Drug");
         System.out.println("\n\n\n\n");
         owlgc.filterByDataPropertyValue("1140867150");
+        System.out.println("\n\n\n\n");
+        owlgc.filterByObjectPropertyValue("ph_d2");
         launch(args);
         
         
