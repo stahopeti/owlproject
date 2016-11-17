@@ -83,12 +83,7 @@ public class OWLGodclass {
     }
     
     public void showInstancesOfClass(String className) throws OWLException{
-        System.out.println("\nThe class you are looking for: " + className);
-        NodeSet<OWLNamedIndividual> instances = null;
-        for(OWLClass cls: ontology.getClassesInSignature()){
-            if(cls.getIRI().getShortForm().equals(className))
-                instances = reasoner.getInstances(cls, true);
-        }
+        NodeSet<OWLNamedIndividual> instances = getInstancesOfOntologyClass(className);
         
         if(!(instances.isEmpty())){
             for(Node<OWLNamedIndividual> individual : instances){
@@ -97,7 +92,48 @@ public class OWLGodclass {
                 System.out.println("Data property: ");showDataPropertyOfIndividual(individual.getRepresentativeElement());
             }
         }
-    };
+    }
+    
+    private NodeSet<OWLNamedIndividual> getInstancesOfOntologyClass(String className){
+        NodeSet<OWLNamedIndividual> instances = null;
+        for(OWLClass cls: ontology.getClassesInSignature()){
+            if(cls.getIRI().getShortForm().equals(className))
+                instances = reasoner.getInstances(cls, true);
+        }
+        
+        return instances;
+        /*
+        if(!(instances.isEmpty())){
+            for(Node<OWLNamedIndividual> individual : instances){
+                System.out.println("Individual: " + individual.getRepresentativeElement().getIRI().getShortForm());
+                System.out.println("Object property: ");showObjectPropertyOfIndividual(individual.getRepresentativeElement());
+                System.out.println("Data property: ");showDataPropertyOfIndividual(individual.getRepresentativeElement());
+            }
+        }*/
+    }
+    
+    public void filterByDataPropertyValue(String filterProperty){
+        System.out.println(filterProperty);
+        Set<OWLNamedIndividual> instances = ontology.getIndividualsInSignature();
+        Set<OWLNamedIndividual> filteredInstances = ontology.getIndividualsInSignature();
+        filteredInstances.clear();
+        
+        
+        if(!(instances.isEmpty())){
+            for(OWLNamedIndividual individual : instances){
+                if(isPropertyInIndividual(individual, filterProperty)) filteredInstances.add(individual);
+            }
+        }
+        
+        if(filteredInstances!=null){
+            for(OWLNamedIndividual individual : filteredInstances){
+                System.out.println("Individual: " + individual.getIRI().getShortForm());
+                    System.out.println("Object property: ");showObjectPropertyOfIndividual(individual);
+                    System.out.println("Data property: ");showDataPropertyOfIndividual(individual);
+
+            }
+        }
+    }
     
     public void showObjectPropertyOfIndividual(OWLNamedIndividual individual){
         for(OWLObjectProperty op : ontology.getObjectPropertiesInSignature()){
@@ -112,13 +148,43 @@ public class OWLGodclass {
         }
     }
     
+    private boolean isPropertyInIndividual(OWLNamedIndividual individual, String property){
+        for(OWLDataProperty dp : ontology.getDataPropertiesInSignature()){
+                Set<OWLLiteral> nodeset = reasoner.getDataPropertyValues(individual, dp);
+                for(OWLLiteral value : nodeset){
+//                   System.out.println("\t" + dp.getIRI().getShortForm() + ": " + value.getLiteral());
+                     if(value.getLiteral().equalsIgnoreCase(property)) return true;
+            }
+        }
+        return false;
+    }
+    
+    private NodeSet<OWLNamedIndividual> getObjectPropertyOfIndividual(){
+        return null;
+    }    
+    
     public void showDataPropertyOfIndividual(OWLNamedIndividual individual){
+//        Set<OWLDataProperty> dp = individual.getDataPropertiesInSignature();
+        /*Set<OWLLiteral> nodeset = getDataPropertyOfIndividual(individual);
+        for(OWLLiteral value : nodeset){
+            System.out.println("\t"  + ": " + value.getLiteral());
+        }*/
+        
         for(OWLDataProperty dp : ontology.getDataPropertiesInSignature()){
                 Set<OWLLiteral> nodeset = reasoner.getDataPropertyValues(individual, dp);
                 for(OWLLiteral value : nodeset){
                    System.out.println("\t" + dp.getIRI().getShortForm() + ": " + value.getLiteral());
             }
         }
+        
+    }
+    
+    private Set<OWLLiteral> getDataPropertyOfIndividual(OWLNamedIndividual individual){
+        Set<OWLLiteral> nodeset = null;
+        for(OWLDataProperty dp : ontology.getDataPropertiesInSignature()){
+                nodeset = reasoner.getDataPropertyValues(individual, dp);
+        }
+        return nodeset;
     }
     
     public void printDataProperties(){
@@ -142,5 +208,4 @@ public class OWLGodclass {
             }
         }
     }
-    
 }
