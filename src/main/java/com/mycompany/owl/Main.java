@@ -18,6 +18,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import view.FilterPane;
 
 /**
  *
@@ -26,7 +27,6 @@ import javafx.stage.Stage;
 public class Main extends Application{
  
     public static void main(String[] args) throws OWLOntologyCreationException, OWLException{
-
         OWLGodclass owlgc = new OWLGodclass();
         System.out.println("Ontology class hierarchy: \n\n");
         owlgc.printHierarchyWhole();
@@ -35,32 +35,46 @@ public class Main extends Application{
         owlgc.showInstancesOfClass("Pharmacology");
         owlgc.showInstancesOfClass("Drug");
         System.out.println("\n\n\n\n");
-        owlgc.filterByDataPropertyValue("1140867150");
+        owlgc.filterByDataPropertyValue("");
         System.out.println("\n\n\n\n");
         owlgc.filterByObjectPropertyValue("ph_d2");
+        
+        owlgc.getObjectPropertyTypes();
+        owlgc.getDataPropertyTypes();
+        
+        //owlgc.getAllInstances();
         launch(args);
-        
-        
     }
 
-/*
+    /*
     menubar-> filter menu
-        showclassinstances
-        
+    scenes:
+    *mainmenu
+    *filter
+    **filter by object or data property
+    
+    *show class hierarchy?
+    *entity browser
+    showclassinstances
     */
 
     
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws OWLOntologyCreationException {
         primaryStage.setTitle("Owl stahorszkojov");
         
-        VBox root = new VBox();
+        OWLGodclass owlgc = new OWLGodclass();
+        
+        FilterPane filter = new FilterPane(
+                owlgc.getObjectPropertyTypes(),
+                owlgc.getDataPropertyTypes()
+        );
         MenuBar menuBar = new MenuBar();
         Menu filterMenu = new Menu("Filter");
         
         menuBar.getMenus().addAll(filterMenu);
         
-        Scene scene = new Scene(root, 600,600);
+        Scene scene = new Scene(filter, 600,600);
         ((VBox) scene.getRoot()).getChildren().addAll(menuBar);
         primaryStage.setScene(scene);
         primaryStage.show();
