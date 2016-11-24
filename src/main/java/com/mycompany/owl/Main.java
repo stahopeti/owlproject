@@ -5,12 +5,15 @@
  */
 package com.mycompany.owl;
 
+import java.io.IOException;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
@@ -60,8 +63,16 @@ public class Main extends Application{
 
     
     @Override
-    public void start(Stage primaryStage) throws OWLOntologyCreationException {
-        primaryStage.setTitle("Owl stahorszkojov");
+    public void start(Stage primaryStage) throws OWLOntologyCreationException, IOException {
+    
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/FXMLFilter.fxml"));
+        
+        Scene scene = new Scene(root);
+        
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        
+        /*    primaryStage.setTitle("Owl stahorszkojov");
         
         OWLGodclass owlgc = new OWLGodclass();
         
@@ -79,5 +90,5 @@ public class Main extends Application{
 //        primaryStage.getScene().getRoot().getChildrenUnmodifiable().addAll(menuBar);
         ((VBox) scene.getRoot()).getChildren().addAll(menuBar);
         primaryStage.show();
-    }
+    */}
 }

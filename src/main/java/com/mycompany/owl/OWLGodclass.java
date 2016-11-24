@@ -41,7 +41,7 @@ public class OWLGodclass {
     OWLReasoner reasoner;
     ArrayList<OWLClassInstanceEntity> classEntities;
     
-    OWLGodclass() throws OWLOntologyCreationException{
+    public OWLGodclass() throws OWLOntologyCreationException{
         File f = new File("nbn_pharmacology.owl");
         iri = IRI.create(f);
         manager = create();
