@@ -39,8 +39,8 @@ public class Main extends Application{
         owlgc.showInstancesOfClass("Drug");
 //        System.out.println("\n\n\n\n");
 //        owlgc.filterByDataPropertyValue("");
-        System.out.println("\n\n\n\n");
-        owlgc.filterByObjectPropertyValue("moa_rec-ant_d2");
+//        System.out.println("\n\n\n\n");
+//        owlgc.filterByObjectPropertyValue("moa_rec-ant_d2");
         
         owlgc.getObjectPropertyTypes();
         owlgc.getDataPropertyTypes();

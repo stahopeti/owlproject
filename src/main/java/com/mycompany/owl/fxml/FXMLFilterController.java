@@ -34,6 +34,10 @@ public class FXMLFilterController implements Initializable {
     @FXML
     ListView dataPropertyList;
     @FXML
+    ListView instancesFilteredByObjectProperty;
+    @FXML
+    ListView instancesFilteredByDataProperty;
+    @FXML
     Button filterButton;
     @FXML
     TextField filterObjectPropertyValue;
@@ -63,7 +67,24 @@ public class FXMLFilterController implements Initializable {
     
     @FXML
     public void filterObjectButtonPressed(){
-        System.out.println(objectPropertyList.getSelectionModel().getSelectedItem().toString());
+        if(objectPropertyList.getSelectionModel().getSelectedItem() == null){
+            showAlert(" filter", "Select a property!");
+            return;
+        }
+        
+        System.out.println("Selected: " + objectPropertyList.getSelectionModel().getSelectedItem().toString());
+        ArrayList<String> filtered = owlgc.filterByObjectPropertyValue(
+                objectPropertyList.getSelectionModel().getSelectedItem().toString(),
+                filterObjectPropertyValue.getText()
+        );
+        
+        if(filtered.size() == 0){
+            showAlert(" filter", "Query returned with zero values.");
+        } else {
+            instancesFilteredByObjectProperty.setItems(
+                FXCollections.observableList(filtered)
+            );
+        }
     }
     
     @FXML
@@ -82,7 +103,10 @@ public class FXMLFilterController implements Initializable {
         if(filtered.size() == 0){
             showAlert(" filter", "Query returned with zero values.");
         } else {
-        
+//        instancesFilteredByDataProperty.
+            instancesFilteredByDataProperty.setItems(
+                FXCollections.observableList(filtered)
+            );
         }
     }
     
