@@ -37,7 +37,7 @@ public class Main extends Application{
         System.out.println("\n\n\n\n");
         owlgc.filterByDataPropertyValue("");
         System.out.println("\n\n\n\n");
-        owlgc.filterByObjectPropertyValue("ph_d2");
+        owlgc.filterByObjectPropertyValue("moa_rec-ant_d2");
         
         owlgc.getObjectPropertyTypes();
         owlgc.getDataPropertyTypes();
@@ -75,8 +75,9 @@ public class Main extends Application{
         menuBar.getMenus().addAll(filterMenu);
         
         Scene scene = new Scene(filter, 600,600);
-        ((VBox) scene.getRoot()).getChildren().addAll(menuBar);
         primaryStage.setScene(scene);
+//        primaryStage.getScene().getRoot().getChildrenUnmodifiable().addAll(menuBar);
+        ((VBox) scene.getRoot()).getChildren().addAll(menuBar);
         primaryStage.show();
     }
 }

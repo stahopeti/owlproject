@@ -5,6 +5,7 @@
  */
 package com.mycompany.owl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Set;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -41,8 +42,8 @@ public class OWLGodclass {
     ArrayList<OWLClassInstanceEntity> classEntities;
     
     OWLGodclass() throws OWLOntologyCreationException{
-        iri = IRI.create("file:/C:/nbn_pharmacology.owl");
-//        iri = IRI.create("file:/C:/pharmacology.owl");
+        File f = new File("nbn_pharmacology.owl");
+        iri = IRI.create(f);
         manager = create();
         dataFactory = manager.getOWLDataFactory();
         ontology = manager.loadOntologyFromOntologyDocument(iri);
