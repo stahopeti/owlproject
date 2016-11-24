@@ -37,8 +37,8 @@ public class Main extends Application{
         owlgc.showInstancesOfClass("NBN");
         owlgc.showInstancesOfClass("Pharmacology");
         owlgc.showInstancesOfClass("Drug");
-        System.out.println("\n\n\n\n");
-        owlgc.filterByDataPropertyValue("");
+//        System.out.println("\n\n\n\n");
+//        owlgc.filterByDataPropertyValue("");
         System.out.println("\n\n\n\n");
         owlgc.filterByObjectPropertyValue("moa_rec-ant_d2");
         
@@ -71,24 +71,5 @@ public class Main extends Application{
         
         primaryStage.setScene(scene);
         primaryStage.show();
-        
-        /*    primaryStage.setTitle("Owl stahorszkojov");
-        
-        OWLGodclass owlgc = new OWLGodclass();
-        
-        FilterPane filter = new FilterPane(
-                owlgc.getObjectPropertyTypes(),
-                owlgc.getDataPropertyTypes()
-        );
-        MenuBar menuBar = new MenuBar();
-        Menu filterMenu = new Menu("Filter");
-        
-        menuBar.getMenus().addAll(filterMenu);
-        
-        Scene scene = new Scene(filter, 600,600);
-        primaryStage.setScene(scene);
-//        primaryStage.getScene().getRoot().getChildrenUnmodifiable().addAll(menuBar);
-        ((VBox) scene.getRoot()).getChildren().addAll(menuBar);
-        primaryStage.show();
-    */}
+        }
 }

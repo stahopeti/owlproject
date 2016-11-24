@@ -70,7 +70,7 @@
                   </SplitPane>
                </content>
           </Tab>
-          <Tab fx:id="filterDataPropertyValue" text="Data properties">
+          <Tab text="Data properties">
                <content>
                   <SplitPane dividerPositions="0.3433333333333333" prefHeight="160.0" prefWidth="200.0">
                     <items>
@@ -87,7 +87,7 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField>
+                              <TextField fx:id="filterDataPropertyValue">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
