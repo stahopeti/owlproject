@@ -5,7 +5,13 @@
  */
 package com.mycompany.owl.fxml;
 
+import com.google.common.io.Files;
 import com.mycompany.owl.OWLGodclass;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -17,6 +23,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 /**
@@ -40,10 +51,17 @@ public class FXMLFilterController implements Initializable {
     @FXML
     Button filterButton;
     @FXML
+    Button openButton;
+    @FXML
+    Button saveButton;
+    @FXML
     TextField filterObjectPropertyValue;
     @FXML
     TextField filterDataPropertyValue;
     
+    File input;
+    XSSFWorkbook workbook;
+    FileChooser fileChooser;
     OWLGodclass owlgc;
     
     @Override
@@ -63,7 +81,35 @@ public class FXMLFilterController implements Initializable {
         dataPropertyList.setItems(
             FXCollections.observableList(owlgc.getDataPropertyTypes())
         );
+        fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Excel Files", "*.xls", "*.xlsx"));
     }    
+    
+    @FXML
+    public void openFile() throws IOException{
+        File file = fileChooser.showOpenDialog(new Stage());
+        FileInputStream fileInputStream = new FileInputStream(file);
+        workbook = new XSSFWorkbook(fileInputStream);
+        if (file != null) {
+            System.out.println("File name: " + file.getName() + 
+                                "\nPath: " + file.getCanonicalPath());
+        }
+    }
+    
+    @FXML
+    public void saveFile(){
+        File file = fileChooser.showSaveDialog(new Stage());
+        if(file!=null){
+            try{
+                FileOutputStream fop = new FileOutputStream(file);
+                workbook.write(fop);
+                fop.close();
+            } catch(Exception e){
+                System.out.println("Exception: " + e.getMessage());
+            }
+        }
+    }
     
     @FXML
     public void filterObjectButtonPressed(){
