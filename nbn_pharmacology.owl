@@ -22,6 +22,9 @@
         <NamedIndividual IRI="#ph_d2-5ht2"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="#d_sertindole"/>
+    </Declaration>
+    <Declaration>
         <DataProperty IRI="#mode_of_action"/>
     </Declaration>
     <Declaration>
@@ -67,10 +70,19 @@
         <DataProperty IRI="#pharmacology"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="#d_pimozide"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#d_sulpiride"/>
+    </Declaration>
+    <Declaration>
         <DataProperty IRI="#nbn_type"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#nbn_01"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#d_zotepine"/>
     </Declaration>
     <Declaration>
         <Class IRI="#ModeOfAction"/>
@@ -82,13 +94,16 @@
         <NamedIndividual IRI="#moa_rec-ant_d2"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#ph_d2"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#Drug"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="#ph_d2"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#d_loxapine"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#d_olanzapine"/>
     </Declaration>
     <ClassAssertion>
         <Class IRI="#Drug"/>
@@ -108,11 +123,31 @@
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#Drug"/>
+        <NamedIndividual IRI="#d_olanzapine"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Drug"/>
         <NamedIndividual IRI="#d_perphenazine"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#Drug"/>
+        <NamedIndividual IRI="#d_pimozide"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Drug"/>
+        <NamedIndividual IRI="#d_sertindole"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Drug"/>
+        <NamedIndividual IRI="#d_sulpiride"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Drug"/>
         <NamedIndividual IRI="#d_thioridazine"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Drug"/>
+        <NamedIndividual IRI="#d_zotepine"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#ModeOfAction"/>
@@ -180,6 +215,16 @@
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#mode_of_action"/>
+        <NamedIndividual IRI="#d_olanzapine"/>
+        <NamedIndividual IRI="#moa_rec-ant_d2-5ht2"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#nbn_pharmacology"/>
+        <NamedIndividual IRI="#d_olanzapine"/>
+        <NamedIndividual IRI="#ph_d2-5ht2"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#mode_of_action"/>
         <NamedIndividual IRI="#d_perphenazine"/>
         <NamedIndividual IRI="#moa_rec-ant_d2"/>
     </ObjectPropertyAssertion>
@@ -190,12 +235,52 @@
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#mode_of_action"/>
+        <NamedIndividual IRI="#d_pimozide"/>
+        <NamedIndividual IRI="#moa_rec-ant_d2"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#nbn_pharmacology"/>
+        <NamedIndividual IRI="#d_pimozide"/>
+        <NamedIndividual IRI="#ph_d2"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#mode_of_action"/>
+        <NamedIndividual IRI="#d_sertindole"/>
+        <NamedIndividual IRI="#moa_rec-ant_d2-5ht2"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#nbn_pharmacology"/>
+        <NamedIndividual IRI="#d_sertindole"/>
+        <NamedIndividual IRI="#ph_d2-5ht2"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#mode_of_action"/>
+        <NamedIndividual IRI="#d_sulpiride"/>
+        <NamedIndividual IRI="#moa_rec-ant_d2"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#nbn_pharmacology"/>
+        <NamedIndividual IRI="#d_sulpiride"/>
+        <NamedIndividual IRI="#ph_d2"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#mode_of_action"/>
         <NamedIndividual IRI="#d_thioridazine"/>
         <NamedIndividual IRI="#moa_rec-ant_d2-5ht2"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#nbn_pharmacology"/>
         <NamedIndividual IRI="#d_thioridazine"/>
+        <NamedIndividual IRI="#ph_d2-5ht2"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#mode_of_action"/>
+        <NamedIndividual IRI="#d_zotepine"/>
+        <NamedIndividual IRI="#moa_rec-ant_d2-5ht2"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#nbn_pharmacology"/>
+        <NamedIndividual IRI="#d_zotepine"/>
         <NamedIndividual IRI="#ph_d2-5ht2"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
@@ -280,6 +365,21 @@
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#atc_code"/>
+        <NamedIndividual IRI="#d_olanzapine"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">N05A H03</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#drug_name"/>
+        <NamedIndividual IRI="#d_olanzapine"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">olanzapine</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#ukb_code"/>
+        <NamedIndividual IRI="#d_olanzapine"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">1140928916</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#atc_code"/>
         <NamedIndividual IRI="#d_perphenazine"/>
         <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">V08D A</Literal>
     </DataPropertyAssertion>
@@ -295,6 +395,51 @@
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#atc_code"/>
+        <NamedIndividual IRI="#d_pimozide"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">N05A G02</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#drug_name"/>
+        <NamedIndividual IRI="#d_pimozide"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">pimozide</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#ukb_code"/>
+        <NamedIndividual IRI="#d_pimozide"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">1140867218</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#atc_code"/>
+        <NamedIndividual IRI="#d_sertindole"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">N05A E03</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#drug_name"/>
+        <NamedIndividual IRI="#d_sertindole"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">sertindole</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#ukb_code"/>
+        <NamedIndividual IRI="#d_sertindole"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">1140927956</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#atc_code"/>
+        <NamedIndividual IRI="#d_sulpiride"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">N05A L01</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#drug_name"/>
+        <NamedIndividual IRI="#d_sulpiride"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">sulpiride</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#ukb_code"/>
+        <NamedIndividual IRI="#d_sulpiride"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">1140867304</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#atc_code"/>
         <NamedIndividual IRI="#d_thioridazine"/>
         <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string"></Literal>
     </DataPropertyAssertion>
@@ -307,6 +452,21 @@
         <DataProperty IRI="#ukb_code"/>
         <NamedIndividual IRI="#d_thioridazine"/>
         <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">1140879750</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#atc_code"/>
+        <NamedIndividual IRI="#d_zotepine"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">N05A X11</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#drug_name"/>
+        <NamedIndividual IRI="#d_zotepine"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">zotepine</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#ukb_code"/>
+        <NamedIndividual IRI="#d_zotepine"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">1141169714</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#mode_of_action"/>
@@ -388,6 +548,10 @@
     </ObjectPropertyRange>
     <SubDataPropertyOf>
         <DataProperty IRI="#atc_code"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#pharmacology"/>
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
     <DataPropertyDomain>

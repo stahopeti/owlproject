@@ -7,11 +7,17 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.owl.fxml.FXMLFilterController">
@@ -114,14 +120,96 @@
                </content>
           </Tab>
             <Tab text="Filter">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <Button fx:id="openFileButton" layoutX="267.0" layoutY="160.0" mnemonicParsing="false" onAction="#openFile" text="Open File" />
-                        <Button fx:id="saveFileButton" layoutX="269.0" layoutY="196.0" mnemonicParsing="false" onAction="#saveFile" text="Save File" />
-                     </children>
-                  </AnchorPane>
-              </content>
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <center>
+                        <GridPane maxHeight="200.0" maxWidth="300.0" BorderPane.alignment="CENTER">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="246.0" minWidth="10.0" prefWidth="246.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="144.0" minWidth="10.0" prefWidth="54.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <TextField fx:id="firstLevelTextField" GridPane.columnIndex="1" />
+                              <TextField fx:id="secondLevelTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <TextField fx:id="thirdLevelTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <TextField fx:id="fourthLevelTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <HBox prefHeight="19.0" prefWidth="246.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                 <children>
+                                    <Label text="First Level" />
+                                    <RadioButton fx:id="firstLevelRadioButton" mnemonicParsing="false">
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </RadioButton>
+                                 </children>
+                                 <GridPane.margin>
+                                    <Insets top="15.0" />
+                                 </GridPane.margin>
+                              </HBox>
+                              <HBox prefHeight="19.0" prefWidth="246.0" GridPane.rowIndex="1">
+                                 <children>
+                                    <Label text="Second Level" />
+                                    <RadioButton fx:id="secondLevelRadioButton" mnemonicParsing="false">
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </RadioButton>
+                                 </children>
+                                 <GridPane.margin>
+                                    <Insets top="15.0" />
+                                 </GridPane.margin>
+                              </HBox>
+                              <HBox prefHeight="19.0" prefWidth="246.0" GridPane.rowIndex="2">
+                                 <children>
+                                    <Label text="Third Level" />
+                                    <RadioButton fx:id="thirdLevelRadioButton" mnemonicParsing="false">
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </RadioButton>
+                                 </children>
+                                 <GridPane.margin>
+                                    <Insets top="15.0" />
+                                 </GridPane.margin>
+                              </HBox>
+                              <HBox prefHeight="19.0" prefWidth="246.0" GridPane.rowIndex="3">
+                                 <children>
+                                    <Label text="Fourth Level" />
+                                    <RadioButton fx:id="fourthLevelRadioButton" mnemonicParsing="false">
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </RadioButton>
+                                 </children>
+                                 <GridPane.margin>
+                                    <Insets top="15.0" />
+                                 </GridPane.margin>
+                              </HBox>
+                           </children>
+                        </GridPane>
+                     </center>
+                     <bottom>
+                        <AnchorPane prefHeight="30.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Button fx:id="saveFileButton" layoutX="524.0" layoutY="11.0" mnemonicParsing="false" onAction="#saveFile" text="Save File" />
+                              <Button fx:id="openFileButton" layoutX="14.0" layoutY="11.0" mnemonicParsing="false" onAction="#openFile" text="Open File" />
+                           </children>
+                           <BorderPane.margin>
+                              <Insets bottom="5.0" />
+                           </BorderPane.margin>
+                        </AnchorPane>
+                     </bottom>
+                     <top>
+                        <Label text="ATC FILTER" BorderPane.alignment="CENTER" />
+                     </top>
+                  </BorderPane>
+               </content>
             </Tab>
         </tabs>
       </TabPane>

@@ -59,6 +59,24 @@ public class FXMLFilterController implements Initializable {
     @FXML
     TextField filterDataPropertyValue;
     
+    @FXML
+    TextField firstLevelTextField;
+    @FXML
+    TextField secondLevelTextField;
+    @FXML
+    TextField thirdLevelTextField;
+    @FXML
+    TextField fourthLevelTextField;
+    
+    @FXML
+    RadioButton firstLevelRadioButton;
+    @FXML
+    RadioButton secondLevelRadioButton;
+    @FXML
+    RadioButton thirdLevelRadioButton;
+    @FXML
+    RadioButton fourthLevelRadioButton;
+    
     File input;
     XSSFWorkbook workbook;
     FileChooser fileChooser;
@@ -99,6 +117,15 @@ public class FXMLFilterController implements Initializable {
     
     @FXML
     public void saveFile(){
+        String returnValue = "";
+        
+        if(firstLevelRadioButton.isSelected()) returnValue += "First Level: " + firstLevelTextField.getText() + "\n";
+        if(secondLevelRadioButton.isSelected()) returnValue += "Second Level: " + secondLevelTextField.getText() + "\n";
+        if(thirdLevelRadioButton.isSelected()) returnValue += "Third Level: " + thirdLevelTextField.getText() + "\n";
+        if(fourthLevelRadioButton.isSelected()) returnValue += "Fourth Level: " + fourthLevelTextField.getText() + "\n";
+        
+        System.out.println(returnValue);
+        /*
         File file = fileChooser.showSaveDialog(new Stage());
         if(file!=null){
             try{
@@ -108,7 +135,7 @@ public class FXMLFilterController implements Initializable {
             } catch(Exception e){
                 System.out.println("Exception: " + e.getMessage());
             }
-        }
+        }*/
     }
     
     @FXML
