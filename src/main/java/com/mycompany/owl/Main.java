@@ -32,21 +32,21 @@ public class Main extends Application{
     public static void main(String[] args) throws OWLOntologyCreationException, OWLException{
         OWLGodclass owlgc = new OWLGodclass();
         System.out.println("Ontology class hierarchy: \n\n");
-        owlgc.printHierarchyWhole();
-        
-        owlgc.showInstancesOfClass("NBN");
+        /*owlgc.printHierarchyWhole();
+        */
+        /*owlgc.showInstancesOfClass("NBN");
         owlgc.showInstancesOfClass("Pharmacology");
-        owlgc.showInstancesOfClass("Drug");
+        */owlgc.showInstancesOfClass("Drug");
 //        System.out.println("\n\n\n\n");
 //        owlgc.filterByDataPropertyValue("");
 //        System.out.println("\n\n\n\n");
 //        owlgc.filterByObjectPropertyValue("moa_rec-ant_d2");
-        
+        /*
         owlgc.getObjectPropertyTypes();
         owlgc.getDataPropertyTypes();
         
         //owlgc.getAllInstances();
-        launch(args);
+        */launch(args);
     }
 
     /*

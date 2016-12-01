@@ -27,6 +27,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
@@ -101,7 +103,9 @@ public class FXMLFilterController implements Initializable {
         );
         fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
-        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Excel Files", "*.xls", "*.xlsx"));
+        fileChooser.getExtensionFilters().addAll(
+                new ExtensionFilter("Excel (xls)", "*.xls"),
+                new ExtensionFilter("Excel (xlsx)", "*.xlsx"));
     }    
     
     @FXML
@@ -115,16 +119,54 @@ public class FXMLFilterController implements Initializable {
         }
     }
     
+    private String getAtcMask(){
+        String atcMask = "";
+        System.out.println("");
+        if(firstLevelRadioButton.isSelected()) {
+            atcMask += firstLevelTextField.getText();
+        } else {
+            atcMask += "*";
+        }
+        if(secondLevelRadioButton.isSelected()) {
+            atcMask += secondLevelTextField.getText();
+        } else {
+            atcMask += "**";
+        }
+        if(thirdLevelRadioButton.isSelected()) {
+            atcMask += thirdLevelTextField.getText();
+        } else {
+            atcMask += "*";
+        }
+        if(fourthLevelRadioButton.isSelected()) {
+            atcMask += fourthLevelTextField.getText();
+        } else {
+            atcMask += "*";
+        }
+        return atcMask;
+    }
+    
     @FXML
     public void saveFile(){
-        String returnValue = "";
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        XSSFRow row;
+        String atcMask = getAtcMask();
         
-        if(firstLevelRadioButton.isSelected()) returnValue += "First Level: " + firstLevelTextField.getText() + "\n";
-        if(secondLevelRadioButton.isSelected()) returnValue += "Second Level: " + secondLevelTextField.getText() + "\n";
-        if(thirdLevelRadioButton.isSelected()) returnValue += "Third Level: " + thirdLevelTextField.getText() + "\n";
-        if(fourthLevelRadioButton.isSelected()) returnValue += "Fourth Level: " + fourthLevelTextField.getText() + "\n";
+        for(int j = 0; j <= sheet.getLastRowNum(); j++){
+            row = sheet.getRow(j);
+            for (int i = 0; i < row.getPhysicalNumberOfCells();i++) {
+                System.out.print(row.getCell(i).getRawValue() + "\t");
+            }
+            System.out.println("");
+        }
         
-        System.out.println(returnValue);
+        row = sheet.getRow(0);
+        row.createCell(row.getLastCellNum()+1).setCellValue(atcMask);
+        
+        System.out.println("Matching UBK codes: ");
+        for(String asd :owlgc.getUKBCodeWhereATCCodeIs("V", "**", "D" , "*")){
+            System.out.println(asd);
+        }
+        
         /*
         File file = fileChooser.showSaveDialog(new Stage());
         if(file!=null){

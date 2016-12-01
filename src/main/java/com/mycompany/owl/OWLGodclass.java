@@ -76,6 +76,87 @@ public class OWLGodclass {
         }
         return properties;
     }
+
+    public ArrayList<String> getUKBCodeWhereATCCodeIs(
+            String firstLevel, String secondLevel, String thirdLevel, String fourthLevel){
+        /*lekérjük az összes ukb-atc kód párt*/
+        
+        System.out.println("ATC code mask: " + 
+                firstLevel + secondLevel + thirdLevel + fourthLevel);
+        
+        boolean matchingMask1 = false;
+        boolean matchingMask2 = false;
+        boolean matchingMask3 = false;
+        boolean matchingMask4 = false;
+        
+        ArrayList<String> matchingUKBCodes = new ArrayList<String>();
+        
+        for(Drug drugs : getDrugs()){
+            if(!drugs.getAtc_code().equalsIgnoreCase("")){
+                System.out.println("atc code we went through: " + drugs.getAtc_code());
+                System.out.println(drugs.getFirstLevelATC() + " - " + firstLevel);
+                System.out.println(drugs.getSecondLevelATC() + " - " + secondLevel);
+                System.out.println(drugs.getThirdLevelATC() + " - " + thirdLevel);
+                System.out.println(drugs.getFourthLevelATC() + " - " + fourthLevel);
+                
+                String anyad = drugs.getFirstLevelATC();
+                
+                System.out.println("Igaze: " + drugs.getSecondLevelATC().equals("05"));
+                
+                if(drugs.getFirstLevelATC().equals(firstLevel)){
+                    matchingMask1 = true;
+                } else {
+                    if(firstLevel.equals("*")) {
+                        matchingMask1 = true;
+                    } else {
+                        matchingMask1 = false;
+                    }
+                }
+                
+                if(drugs.getSecondLevelATC().equals(secondLevel)){
+                    matchingMask2 = true;
+                } else {
+                    if(secondLevel.equals("**")) {
+                        matchingMask2 = true;
+                    } else {
+                        matchingMask2 = false;
+                    }
+                }
+                
+                if(drugs.getThirdLevelATC().equals(thirdLevel)){
+                    matchingMask3 = true;
+                } else {
+                    if(thirdLevel.equals("*")) {
+                        matchingMask3 = true;
+                    } else {
+                        matchingMask3 = false;
+                    }
+                }
+                if(drugs.getFourthLevelATC().equals(fourthLevel)){
+                    matchingMask4 = true;
+                } else {
+                    if(fourthLevel.equals("*")) {
+                        matchingMask4 = true;
+                    } else {
+                        matchingMask4 = false;
+                    }
+                }
+                
+                System.out.println(
+                    "1: " + matchingMask1 + 
+                    "\n2: " + matchingMask2 + 
+                    "\n3: " + matchingMask3 + 
+                    "\n4: " + matchingMask4);
+                
+                if(matchingMask1 && matchingMask2 && matchingMask3 && matchingMask4)
+                    matchingUKBCodes.add(drugs.getUkb_code());
+            }
+        }
+        
+        if(matchingUKBCodes.size() > 0) System.out.println("VAN BENNE");
+                else System.out.println("NINCS BENNE");
+        return matchingUKBCodes;
+    }
     
     public void getAllInstances(){
         Set<OWLNamedIndividual> instances = ontology.getIndividualsInSignature();
@@ -120,19 +201,12 @@ public class OWLGodclass {
     }
     
     public void showDataPropertyOfIndividual(OWLNamedIndividual individual){
-//        Set<OWLDataProperty> dp = individual.getDataPropertiesInSignature();
-        /*Set<OWLLiteral> nodeset = getDataPropertyOfIndividual(individual);
-        for(OWLLiteral value : nodeset){
-            System.out.println("\t"  + ": " + value.getLiteral());
-        }*/
-        
         for(OWLDataProperty dp : ontology.getDataPropertiesInSignature()){
                 Set<OWLLiteral> nodeset = reasoner.getDataPropertyValues(individual, dp);
                 for(OWLLiteral value : nodeset){
                    System.out.println("\t" + dp.getIRI().getShortForm() + ": " + value.getLiteral());
             }
         }
-        
     }
     
     public void searchForClass(String className) throws OWLException{
@@ -141,6 +215,19 @@ public class OWLGodclass {
             if(cls.getIRI().getShortForm().equals(className))
                 printHierarchyStartingHere(cls);
         }
+    }
+    
+    private ArrayList<Drug> getDrugs(){
+        NodeSet<OWLNamedIndividual> instances = getInstancesOfOntologyClass("Drug");
+        
+        ArrayList<Drug> drugList = new ArrayList<Drug>();
+        
+        if(!(instances.isEmpty())){
+            for(Node<OWLNamedIndividual> individual : instances){
+                drugList.add(returnUKBATCpair(individual.getRepresentativeElement()));
+            }
+        }
+        return drugList;
     }
     
     private NodeSet<OWLNamedIndividual> getInstancesOfOntologyClass(String className){
@@ -186,6 +273,44 @@ public class OWLGodclass {
         return filtered;
     }
     
+    public ArrayList<String> filterUKBByDataPropertyValue(String filterPropertyName, String filterPropertyValue){
+        System.out.println(filterPropertyValue);
+        Set<OWLNamedIndividual> instances = ontology.getIndividualsInSignature();
+        Set<OWLNamedIndividual> filteredInstances = ontology.getIndividualsInSignature();
+        filteredInstances.clear();
+        
+        ArrayList<String> filtered = new ArrayList<String>();
+        
+        if(!(instances.isEmpty())){
+            for(OWLNamedIndividual individual : instances){
+                if(isDataPropertyInIndividual(individual, filterPropertyName, filterPropertyValue)) {
+                    filteredInstances.add(individual);
+                }
+            }
+        }
+        
+        if(filteredInstances!=null){
+            for(OWLNamedIndividual individual : filteredInstances){
+                System.out.println("Individual: " + individual.getIRI().getShortForm());
+                System.out.println("Object property: ");showObjectPropertyOfIndividual(individual);
+                System.out.println("Data property: ");showDataPropertyOfIndividual(individual);
+                filtered.add(getUKBCode(individual));
+           }
+        }
+        return filtered;
+    }
+
+    private String getUKBCode(OWLNamedIndividual individual){
+        for(OWLDataProperty dp : ontology.getDataPropertiesInSignature()){
+                Set<OWLLiteral> nodeset = reasoner.getDataPropertyValues(individual, dp);
+                for(OWLLiteral value : nodeset){
+                     if(value.getDatatype().getIRI().getShortForm().equals("ukb_code"));
+                         return value.getLiteral(); 
+                }
+        }
+        return "";
+    }
+    
     public ArrayList<String> filterByObjectPropertyValue(String filterPropertyName, String filterPropertyValue){
         System.out.println(filterPropertyValue);
         Set<OWLNamedIndividual> instances = ontology.getIndividualsInSignature();
@@ -228,13 +353,28 @@ public class OWLGodclass {
         for(OWLDataProperty dp : ontology.getDataPropertiesInSignature()){
                 Set<OWLLiteral> nodeset = reasoner.getDataPropertyValues(individual, dp);
                 for(OWLLiteral value : nodeset){
-//                   System.out.println("\t" + dp.getIRI().getShortForm() + ": " + value.getLiteral());
-                     if(value.getDatatype().getIRI().getShortForm().equals(propertyName));
-                         if(value.getLiteral().equalsIgnoreCase(propertyValue)) 
+                     if(dp.getIRI().getShortForm().equals(propertyName))
+                         if(value.getLiteral().equalsIgnoreCase(propertyValue))
                              return true;
             }
         }
         return false;
+    }
+    
+    private Drug returnUKBATCpair(OWLNamedIndividual individual){
+        String UKB = "";
+        String ATC = "";
+        for(OWLDataProperty dp : ontology.getDataPropertiesInSignature()){
+            Set<OWLLiteral> nodeset = reasoner.getDataPropertyValues(individual, dp);
+            for(OWLLiteral value : nodeset){
+                if(dp.getIRI().getShortForm().equalsIgnoreCase("ukb_code"))
+                    UKB = value.getLiteral();
+                
+                if(dp.getIRI().getShortForm().equalsIgnoreCase("atc_code"))
+                    ATC = value.getLiteral();
+            } 
+        }
+        return (new Drug(UKB, ATC));
     }
     
     private Set<OWLNamedIndividual> getObjectPropertyOfIndividual(OWLNamedIndividual individual){
@@ -297,5 +437,54 @@ public class OWLGodclass {
                 }
             }
         }
+    }
+
+    private class Drug{
+    
+        private String ukb_code;
+        private String atc_code;
+
+        @Override
+        public String toString() {
+            return "Drug{" + "ukb_code=" + ukb_code + ", atc_code=" + atc_code + '}';
+        }
+
+        public String getFirstLevelATC(){
+            return "" + atc_code.charAt(0);
+        }
+        
+        public String getSecondLevelATC(){
+            return (String.valueOf(atc_code.charAt(1)) + String.valueOf(atc_code.charAt(2)));
+        }
+        
+        public String getThirdLevelATC(){
+            return atc_code.substring(3,4);
+        }
+        
+        public String getFourthLevelATC(){
+            return atc_code.substring(4, 5);
+        }
+        
+        public Drug(String ukb_code, String atc_code) {
+            this.ukb_code = ukb_code;
+            this.atc_code = atc_code;
+        }
+
+        public String getUkb_code() {
+            return ukb_code;
+        }
+
+        public void setUkb_code(String ukb_code) {
+            this.ukb_code = ukb_code;
+        }
+
+        public String getAtc_code() {
+            return atc_code;
+        }
+
+        public void setAtc_code(String atc_code) {
+            this.atc_code = atc_code;
+        }
+        
     }
 }
