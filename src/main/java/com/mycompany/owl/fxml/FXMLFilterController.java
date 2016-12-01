@@ -9,6 +9,7 @@ import com.google.common.io.Files;
 import com.mycompany.owl.OWLGodclass;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -79,7 +80,7 @@ public class FXMLFilterController implements Initializable {
     @FXML
     RadioButton fourthLevelRadioButton;
     
-    File input;
+    File file;
     XSSFWorkbook workbook;
     FileChooser fileChooser;
     OWLGodclass owlgc;
@@ -104,13 +105,13 @@ public class FXMLFilterController implements Initializable {
         fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         fileChooser.getExtensionFilters().addAll(
-                new ExtensionFilter("Excel (xls)", "*.xls"),
                 new ExtensionFilter("Excel (xlsx)", "*.xlsx"));
     }    
     
     @FXML
     public void openFile() throws IOException{
-        File file = fileChooser.showOpenDialog(new Stage());
+        file = fileChooser.showOpenDialog(new Stage());
+//        file = new File("patients_drug_consumption.xlsx");
         FileInputStream fileInputStream = new FileInputStream(file);
         workbook = new XSSFWorkbook(fileInputStream);
         if (file != null) {
@@ -119,7 +120,7 @@ public class FXMLFilterController implements Initializable {
         }
     }
     
-    private String getAtcMask(){
+    private String getATCMask(){
         String atcMask = "";
         System.out.println("");
         if(firstLevelRadioButton.isSelected()) {
@@ -145,39 +146,83 @@ public class FXMLFilterController implements Initializable {
         return atcMask;
     }
     
-    @FXML
-    public void saveFile(){
-        XSSFSheet sheet = workbook.getSheetAt(0);
-        XSSFRow row;
-        String atcMask = getAtcMask();
+    private ArrayList<String> filterATC(){
+        String atcMask = getATCMask();
+        if(atcMask.equals("")) return owlgc.getUKBCodeWhereATCCodeIs("", "", "", "");
         
-        for(int j = 0; j <= sheet.getLastRowNum(); j++){
-            row = sheet.getRow(j);
-            for (int i = 0; i < row.getPhysicalNumberOfCells();i++) {
-                System.out.print(row.getCell(i).getRawValue() + "\t");
+        return owlgc.getUKBCodeWhereATCCodeIs(
+                atcMask.substring(0, 1),
+                atcMask.substring(1, 3),
+                atcMask.substring(3, 4),
+                atcMask.substring(4,5));
+    }
+    
+    private ArrayList<Integer> matchingIndexes(ArrayList<String> inTable){
+        ArrayList<Integer> toReturn = new ArrayList<>();
+        ArrayList<String> toCompare = filterATC();
+        for(int i = 0; i < inTable.size(); i++){
+            for (int j = 0; j < toCompare.size(); j++) {
+                if(inTable.get(i).equals(toCompare.get(j))){
+                    System.out.println(i + "_" + i);
+                    toReturn.add(i);
+                }
+            }
+        }
+        return toReturn;
+    }
+    
+    @FXML
+    public void saveFile() throws FileNotFoundException, IOException{
+        FileInputStream fileInputStream = new FileInputStream(file);
+        XSSFWorkbook workbookToModify = new XSSFWorkbook(fileInputStream);
+        XSSFSheet sheet = workbookToModify.getSheetAt(0);
+        XSSFRow row;
+        String atcMask = getATCMask();
+        ArrayList<String> firstRowCells = new ArrayList<>();
+        for(int i = 0; i <= sheet.getLastRowNum(); i++){
+            row = sheet.getRow(i);
+            for (int j = 0; j < row.getPhysicalNumberOfCells(); j++) {
+                System.out.print(row.getCell(j).getRawValue() + "\t");
+                if(i == 0) firstRowCells.add(row.getCell(j).getRawValue());
             }
             System.out.println("");
         }
-        
-        row = sheet.getRow(0);
-        row.createCell(row.getLastCellNum()+1).setCellValue(atcMask);
-        
-        System.out.println("Matching UBK codes: ");
-        for(String asd :owlgc.getUKBCodeWhereATCCodeIs("V", "**", "D" , "*")){
-            System.out.println(asd);
+            row = sheet.getRow(0);
+            row.createCell(row.getLastCellNum()).setCellValue("ATC mask:");
+            row.createCell(row.getLastCellNum()).setCellValue(atcMask);
+            
+        ArrayList<Integer> matchingIndexes = matchingIndexes(firstRowCells);
+        System.out.println("SUMS");
+        for(int i = 0; i <= sheet.getLastRowNum(); i++){
+            row = sheet.getRow(i);
+            int sum = 0;
+            for (int j = 0; j < row.getPhysicalNumberOfCells(); j++) {
+                if(i != 0 && j != 0){
+                    for(int index : matchingIndexes){
+                        if(index == j){
+                            sum += Integer.valueOf(row.getCell(j).getRawValue());
+                        }
+                    }
+                }
+            }
+            System.out.println(sum);
+            if(i > 0){
+                row = sheet.getRow(i);
+                row.createCell(row.getLastCellNum()+1).setCellValue(sum);
+            }
         }
         
-        /*
+        
         File file = fileChooser.showSaveDialog(new Stage());
         if(file!=null){
             try{
                 FileOutputStream fop = new FileOutputStream(file);
-                workbook.write(fop);
+                workbookToModify.write(fop);
                 fop.close();
             } catch(Exception e){
                 System.out.println("Exception: " + e.getMessage());
             }
-        }*/
+        }
     }
     
     @FXML

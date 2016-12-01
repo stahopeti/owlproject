@@ -93,15 +93,6 @@ public class OWLGodclass {
         
         for(Drug drugs : getDrugs()){
             if(!drugs.getAtc_code().equalsIgnoreCase("")){
-                System.out.println("atc code we went through: " + drugs.getAtc_code());
-                System.out.println(drugs.getFirstLevelATC() + " - " + firstLevel);
-                System.out.println(drugs.getSecondLevelATC() + " - " + secondLevel);
-                System.out.println(drugs.getThirdLevelATC() + " - " + thirdLevel);
-                System.out.println(drugs.getFourthLevelATC() + " - " + fourthLevel);
-                
-                String anyad = drugs.getFirstLevelATC();
-                
-                System.out.println("Igaze: " + drugs.getSecondLevelATC().equals("05"));
                 
                 if(drugs.getFirstLevelATC().equals(firstLevel)){
                     matchingMask1 = true;
@@ -142,14 +133,12 @@ public class OWLGodclass {
                     }
                 }
                 
-                System.out.println(
-                    "1: " + matchingMask1 + 
-                    "\n2: " + matchingMask2 + 
-                    "\n3: " + matchingMask3 + 
-                    "\n4: " + matchingMask4);
-                
                 if(matchingMask1 && matchingMask2 && matchingMask3 && matchingMask4)
                     matchingUKBCodes.add(drugs.getUkb_code());
+            } else {
+                if(firstLevel.equals("") && secondLevel.equals("") && thirdLevel.equals("") && fourthLevel.equals("")){
+                    matchingUKBCodes.add(drugs.getUkb_code());
+                }
             }
         }
         
