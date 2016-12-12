@@ -197,7 +197,7 @@
                      <bottom>
                         <AnchorPane prefHeight="30.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                            <children>
-                              <Button fx:id="saveFileButton" layoutX="524.0" layoutY="11.0" mnemonicParsing="false" onAction="#saveFile" text="Save File" />
+                              <Button fx:id="saveFileButton" layoutX="524.0" layoutY="11.0" mnemonicParsing="false" onAction="#saveFileTransformed" text="Save File" />
                               <Button fx:id="openFileButton" layoutX="14.0" layoutY="11.0" mnemonicParsing="false" onAction="#openFile" text="Open File" />
                            </children>
                            <BorderPane.margin>

@@ -154,7 +154,7 @@ public class FXMLFilterController implements Initializable {
                 atcMask.substring(0, 1),
                 atcMask.substring(1, 3),
                 atcMask.substring(3, 4),
-                atcMask.substring(4,5));
+                atcMask.substring(4, 5));
     }
     
     private ArrayList<Integer> matchingIndexes(ArrayList<String> inTable){
@@ -172,7 +172,81 @@ public class FXMLFilterController implements Initializable {
     }
     
     @FXML
-    public void saveFile() throws FileNotFoundException, IOException{
+    public void saveFileTransformed() throws FileNotFoundException, IOException{
+        FileInputStream fileInputStream = new FileInputStream(file);
+        XSSFWorkbook workbookToModify = new XSSFWorkbook(fileInputStream);
+        XSSFSheet sheet = workbookToModify.getSheetAt(0);
+        XSSFRow row;
+        String atcMask = getATCMask();
+        ArrayList<String> firstRowCells = new ArrayList<>();
+        for(int i = 0; i <= sheet.getLastRowNum(); i++){
+            row = sheet.getRow(i);
+            for (int j = 0; j < row.getPhysicalNumberOfCells(); j++) {
+                System.out.print(row.getCell(j).getRawValue() + "\t");
+                if(i == 0) firstRowCells.add(row.getCell(j).getRawValue());
+            }
+            System.out.println("");
+        }
+        
+        
+        XSSFWorkbook transformedWB = new XSSFWorkbook();
+        transformedWB.createSheet();
+        XSSFSheet transformedS = transformedWB.getSheetAt(0);
+        for (int i = 0; i < sheet.getPhysicalNumberOfRows(); i++) {
+            transformedS.createRow(i);
+        }
+        /*
+        elkezdünk végigmenni az alap sheeten
+        ha megvan az index, ahol van match, akkor createrow(0) és bele a többit 0. helyre
+        */
+        ArrayList<Integer> matchingIndexes = matchingIndexes(firstRowCells);
+         
+        for(int index : matchingIndexes){
+            for (int i = 0; i < sheet.getPhysicalNumberOfRows(); i++) {
+                row = sheet.getRow(i);
+                row.getCell(index).setCellValue(3.14159);
+            }
+            /*for (int i = 0; i < row.getPhysicalNumberOfCells(); i++) {
+                if(i == index){
+                    for (int j = 0; j < sheet.getPhysicalNumberOfRows(); j++) {
+                        row = sheet.getRow(j);
+                        transformedS.getRow(j).createCell(transformedColumnCount).setCellValue(
+                                row.getCell(i).getRawValue()
+                        );
+                    }
+                    transformedColumnCount++;
+                }
+            }*/
+        }
+        int columnsInTransformed = 0;
+        for (int i = 0; i < sheet.getPhysicalNumberOfRows(); i++) {
+            row = sheet.getRow(i);
+            for (int j = 0; j < row.getPhysicalNumberOfCells(); j++) {
+                String cellValue = row.getCell(j).getRawValue();
+                if(!cellValue.equals("3.14159")){
+                    transformedS.getRow(i).createCell(columnsInTransformed);
+                    transformedS.getRow(i).getCell(columnsInTransformed).setCellValue(cellValue);
+                    columnsInTransformed++;
+                }
+            }
+            columnsInTransformed = 0;
+        }
+        
+        File file = fileChooser.showSaveDialog(new Stage());
+        if(file!=null){
+            try{
+                FileOutputStream fop = new FileOutputStream(file);
+                transformedWB.write(fop);
+                fop.close();
+            } catch(Exception e){
+                System.out.println("Exception: " + e.getMessage());
+            }
+        }
+        
+    }
+    
+    @FXML
+    public void saveFileFiltered() throws FileNotFoundException, IOException{
         FileInputStream fileInputStream = new FileInputStream(file);
         XSSFWorkbook workbookToModify = new XSSFWorkbook(fileInputStream);
         XSSFSheet sheet = workbookToModify.getSheetAt(0);

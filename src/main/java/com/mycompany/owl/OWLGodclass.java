@@ -91,7 +91,9 @@ public class OWLGodclass {
         
         ArrayList<String> matchingUKBCodes = new ArrayList<String>();
         
-        for(Drug drugs : getDrugs()){
+        ArrayList<Drug> drug = getDrugs();
+        
+        for(Drug drugs : drug){
             if(!drugs.getAtc_code().equalsIgnoreCase("")){
                 
                 if(drugs.getFirstLevelATC().equals(firstLevel)){
