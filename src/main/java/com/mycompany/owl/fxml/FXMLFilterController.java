@@ -200,7 +200,24 @@ public class FXMLFilterController implements Initializable {
         ha megvan az index, ahol van match, akkor createrow(0) és bele a többit 0. helyre
         */
         ArrayList<Integer> matchingIndexes = matchingIndexes(firstRowCells);
-         
+        for(int i = 0; i <= sheet.getLastRowNum(); i++){
+            row = sheet.getRow(i);
+            int sum = 0;
+            for (int j = 0; j < row.getPhysicalNumberOfCells(); j++) {
+                if(i != 0 && j != 0){
+                    for(int index : matchingIndexes){
+                        if(index == j){
+                            sum += Integer.valueOf(row.getCell(j).getRawValue());
+                        }
+                    }
+                }
+            }
+            System.out.println(sum);
+            if(i > 0){
+                row = sheet.getRow(i);
+                row.createCell(row.getLastCellNum()).setCellValue(sum);
+            }
+        } 
         for(int index : matchingIndexes){
             for (int i = 0; i < sheet.getPhysicalNumberOfRows(); i++) {
                 row = sheet.getRow(i);
@@ -231,6 +248,10 @@ public class FXMLFilterController implements Initializable {
             }
             columnsInTransformed = 0;
         }
+        
+        row = transformedS.getRow(0);
+        row.createCell(row.getLastCellNum()).setCellValue(atcMask);
+        
         
         File file = fileChooser.showSaveDialog(new Stage());
         if(file!=null){
